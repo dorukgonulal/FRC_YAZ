@@ -45,7 +45,7 @@ public final class Constants {
       public static final double ELEVATOR_SETPOINT_ALGEA2 = 67.3;
       public static final double ELEVATOR_SETPOINT_PROCESSOR = 18;
 
-      public static final double ELEVATOR_SETPOINT_HP_FIRST = 31;
+      public static final double ELEVATOR_SETPOINT_HP_FIRST = 29;
       public static final double ELEVATOR_SETPOINT_HP_LAST = ELEVATOR_SETPOINT_HP_FIRST - 2.0;
       public static final double ELEVATOR_SETPOINT_MAKS = 12.5;
     }

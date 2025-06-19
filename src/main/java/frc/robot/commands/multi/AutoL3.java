@@ -39,21 +39,12 @@ public class AutoL3 extends Command {
 
     @Override
     public void execute() {
-        if(!coralSwitch.get()) {
-            new ParallelCommandGroup(
-                new ElevatorControlCommand(elevatorSubsystem, ElevatorPositions.BASE),
-                new CoralPivotControl(coralPivotSubsystem, CoralPivotPosition.CLOSE)
-            );
-        } else {
-            new ParallelCommandGroup(
+        new ParallelCommandGroup(
                 new ElevatorControlCommand(elevatorSubsystem, ElevatorPositions.L3),
                 new CoralPivotControl(coralPivotSubsystem, CoralPivotPosition.REEFL23),
-                
+
                 new SequentialCommandGroup(
-                    new CoralShootCommand(coralSubsystem),
-                    new WaitCommand(0.5)
-                )
-            );
-        }
+                        new CoralShootCommand(coralSubsystem),
+                        new WaitCommand(0.5)));
     }
 }

@@ -81,8 +81,18 @@ public class Telemetry {
     private final double[] m_moduleStatesArray = new double[8];
     private final double[] m_moduleTargetsArray = new double[8];
 
+    private final DoublePublisher ntBackLeftActual =
+    inst.getTable("BackLeft").getDoubleTopic("ActualSpeed").publish();
+    private final DoublePublisher ntBackLeftSetpt =
+        inst.getTable("BackLeft").getDoubleTopic("SetpointSpeed").publish();
+
+
     /** Accept the swerve drive state and telemeterize it to SmartDashboard and SignalLogger. */
     public void telemeterize(SwerveDriveState state) {
+
+        ntBackLeftActual.set(state.ModuleStates[2].speedMetersPerSecond);
+        ntBackLeftSetpt.set(state.ModuleTargets[2].speedMetersPerSecond);
+        
         /* Telemeterize the swerve drive state */
         drivePose.set(state.Pose);
         driveSpeeds.set(state.Speeds);

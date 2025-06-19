@@ -3,15 +3,16 @@ package frc.robot.commands.intake;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.intake.AlgeaSubsystem;
 import frc.robot.subsystems.intake.CoralSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class CoralShootCommand extends Command {
-    private final CoralSubsystem coralSubsystem;
+public class AlgeaShootCommand extends Command {
+    private final AlgeaSubsystem algeaSubsystem;
 
-    public CoralShootCommand(CoralSubsystem coralSubsystem) {
-        this.coralSubsystem = coralSubsystem;
-        addRequirements(coralSubsystem);
+    public AlgeaShootCommand(AlgeaSubsystem algeaSubsystem) {
+        this.algeaSubsystem = algeaSubsystem;
+        addRequirements(algeaSubsystem);
     }
 
     // Called when the command is initially scheduled.
@@ -23,14 +24,13 @@ public class CoralShootCommand extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        coralSubsystem.intakeShoot(Constants.IntakeConstants.CoralConstants.IntakePower);
+        algeaSubsystem.intakeShoot(Constants.IntakeConstants.CoralConstants.IntakePower);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        coralSubsystem.stopIntake();
-        // coralSubsystem.setIdleMod(IdleMode.kCoast);
+        algeaSubsystem.stopIntake();
     }
 
     // Returns true when the command should end.

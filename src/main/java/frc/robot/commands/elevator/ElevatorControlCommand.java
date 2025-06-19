@@ -17,9 +17,9 @@ public class ElevatorControlCommand extends Command {
   public double stallPower;
   public double slowPower = 1;
 
-  public ElevatorControlCommand(ElevatorSubsystem elevatorSubsystem, ElevatorPositions level) {
+  public ElevatorControlCommand(ElevatorSubsystem elevatorSubsystem, ElevatorPositions hpLast) {
 
-    this.level = level;
+    this.level = hpLast;
     this.elevatorSubsystem = elevatorSubsystem;
 
     addRequirements(elevatorSubsystem);

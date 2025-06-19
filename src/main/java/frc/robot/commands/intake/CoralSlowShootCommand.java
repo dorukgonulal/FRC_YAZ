@@ -6,10 +6,10 @@ import frc.robot.Constants;
 import frc.robot.subsystems.intake.CoralSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class CoralShootCommand extends Command {
+public class CoralSlowShootCommand extends Command {
     private final CoralSubsystem coralSubsystem;
 
-    public CoralShootCommand(CoralSubsystem coralSubsystem) {
+    public CoralSlowShootCommand(CoralSubsystem coralSubsystem) {
         this.coralSubsystem = coralSubsystem;
         addRequirements(coralSubsystem);
     }
@@ -23,7 +23,7 @@ public class CoralShootCommand extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        coralSubsystem.intakeShoot(Constants.IntakeConstants.CoralConstants.IntakePower);
+        coralSubsystem.intakeShoot(0.15);
     }
 
     // Called once the command ends or is interrupted.
