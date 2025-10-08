@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotID;
 
-public class AlgeaSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
 
-    private final SparkMax RollerLeft = new SparkMax(RobotID.Intake.Algea.ROLLER_LEFT, MotorType.kBrushless);
-    private final SparkMax RollerRight = new SparkMax(RobotID.Intake.Algea.ROLLER_RIGHT, MotorType.kBrushless);
+    private final SparkMax RollerLeft = new SparkMax(RobotID.Intake.ROLLER_LEFT, MotorType.kBrushless);
+    private final SparkMax RollerRight = new SparkMax(RobotID.Intake.ROLLER_RIGHT, MotorType.kBrushless);
     private final RelativeEncoder rollerleftencoder = RollerLeft.getEncoder();
     private final RelativeEncoder rollerrightencoder = RollerRight.getEncoder();
 
-    public AlgeaSubsystem() {}
+    public IntakeSubsystem() {}
 
     public void intakeOn(double power) {
         RollerLeft.set(power);
@@ -46,8 +46,6 @@ public class AlgeaSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("ROLLERLEFT", getleftposition());
-        SmartDashboard.putNumber("ROLLERRIGHT", getrightposition());
 
     }
 }

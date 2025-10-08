@@ -41,12 +41,7 @@ public class RobotID {
     }
 
     public static final class Pivot {
-        public static final class Algea {
-            public static final int MOTOR_ID = 40; // ters
-        }
-        public static final class Coral {
-            public static final int MOTOR_ID = 38; // bunlar ters 
-        }
+        public static final int MOTOR_ID = 38;
     }
 
     public static final class Climb {
@@ -54,14 +49,7 @@ public class RobotID {
     }
 
     public static final class Intake {
-        public static final class Coral {
-            public static final int ROLLER_LEFT = 35;
-            public static final int ROLLER_RIGHT = 37;
-        }
-
-        public static final class Algea {
-            public static final int ROLLER_LEFT = 32;
-            public static final int ROLLER_RIGHT = 39;
-        }
+        public static final int ROLLER_LEFT = 35;
+        public static final int ROLLER_RIGHT = 37;
     }
 }

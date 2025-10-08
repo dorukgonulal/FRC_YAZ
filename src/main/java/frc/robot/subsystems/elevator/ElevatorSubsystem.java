@@ -30,7 +30,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public int currentSetpoint;
 
   public enum ElevatorPositions {
-    BASE, HP_FIRST, HP_LAST, L1, L2, L3, L4, MAX, A1, A2, PROCESSOR, AUTOL3, AUTOL2
+    BASE, HP, L1, L2, L3, L4, MAX, A1, A2, PROCESSOR, AUTOL3, AUTOL2, READYFORAUTO
   }
 
   public ElevatorSubsystem() {
@@ -128,10 +128,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
+  public void periodic() {    
+    SmartDashboard.putNumber("POSITION | ELEVATOR", getElevatorPosition());
 
-    SmartDashboard.putNumber("Elevator Position (adnanin gotu)", getElevatorPosition());
-    
     if (getElevatorPosition() < 1) {
       stallElevator(0);
     }

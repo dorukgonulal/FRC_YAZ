@@ -32,20 +32,15 @@ public class TunerConstants {
             .withKP(5.5)
             .withKI(0.0)
             .withKD(0.5)
-            .withKS(0.07) // Daha az çünkü dönme için daha az kuvvet gerekir
-            .withKV(0.0)
-            .withKA(0.0)
             .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     // When using closed-loop control, the drive motor uses the control
     // output type specified by SwerveModuleConstants.DriveMotorClosedLoopOutput
     private static final Slot0Configs driveGains = new Slot0Configs()
-            .withKP(0.35) // Daha hızlı tepki (Kraken daha güçlü)
+            .withKP(0.1) // Daha hızlı tepki (Kraken daha güçlü)
             .withKI(0.0)
-            .withKD(0.015) // İyi frenleme için az bir D
-            .withKS(0.1) // Başlangıç itmesi (yüksek torklu ama robot ağır)
-            .withKV(0.105) // 12V / 5.5 m/s ≈ 2.18, ama CTRE tuning için normalize edilir
-            .withKA(0.0);
+            .withKD(0.5); // İyi frenleme için az bir D
+
 
     // The closed-loop output type to use for the steer motors;
     // This affects the PID/FF gains for the steer motors
@@ -97,7 +92,7 @@ public class TunerConstants {
     private static final double kCoupleRatio = 3.5714285714285716;
 
     private static final double kDriveGearRatio = 6.122448979591837;
-    private static final double kSteerGearRatio = 12.4; // 21.428571428571427
+    private static final double kSteerGearRatio = 21.428571428571427; // 21.428571428571427
     private static final Distance kWheelRadius = Inches.of(2); // 20
 
     private static final boolean kInvertLeftSide = false;

@@ -7,32 +7,26 @@ package frc.robot.commands.multi;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.elevator.ElevatorControlCommand;
-import frc.robot.commands.pivot.AlgeaPivotControl;
-import frc.robot.commands.pivot.CoralPivotControl;
+import frc.robot.commands.pivot.PivotControl;
 import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem.ElevatorPositions;
-import frc.robot.subsystems.pivot.AlgeaPivotSubsystem;
-import frc.robot.subsystems.pivot.CoralPivotSubsystem;
-import frc.robot.subsystems.pivot.AlgeaPivotSubsystem.AlgeaPivotPosition;
-import frc.robot.subsystems.pivot.CoralPivotSubsystem.CoralPivotPosition;
+import frc.robot.subsystems.pivot.PivotSubsystem;
+import frc.robot.subsystems.pivot.PivotSubsystem.PivotPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoLifter extends SequentialCommandGroup {
   private ElevatorSubsystem elevatorSubsystem;
-  private CoralPivotSubsystem coralPivotSubsystem;
-  private AlgeaPivotSubsystem algeaPivotSubsystem;
+  private PivotSubsystem pivotSubsystem;
   private ElevatorPositions elevatorLevel;
-  private CoralPivotPosition coralPivotLevel;
-  private AlgeaPivotPosition algeaPivotPosition;
+  private PivotPosition pivotLevel;
   
   /** Creates a new L3. */
-  public AutoLifter(ElevatorSubsystem elevatorSubsystem, CoralPivotSubsystem coralPivotSubsystem, AlgeaPivotSubsystem algeaPivotSubsystem, ElevatorPositions elevatorLevel,
-  CoralPivotPosition coralPivotLevel, AlgeaPivotPosition algeaPivotLevel) {
+  public AutoLifter(ElevatorSubsystem elevatorSubsystem, PivotSubsystem pivotSubsystem, ElevatorPositions elevatorLevel, PivotPosition pivotLevel) {
     this.elevatorSubsystem = elevatorSubsystem;
-    this.coralPivotSubsystem = coralPivotSubsystem;
-    this.coralPivotLevel = coralPivotLevel;
+    this.pivotSubsystem = pivotSubsystem;
+    this.pivotLevel = pivotLevel;
     this.elevatorLevel = elevatorLevel;
 
     // Add your commands in the addCommands() call, e.g.
@@ -40,8 +34,7 @@ public class AutoLifter extends SequentialCommandGroup {
     addCommands(
       new ParallelCommandGroup(
         new ElevatorControlCommand(elevatorSubsystem, elevatorLevel),
-        new CoralPivotControl(coralPivotSubsystem, coralPivotLevel),
-        new AlgeaPivotControl(algeaPivotSubsystem, algeaPivotLevel)
+        new PivotControl(pivotSubsystem, pivotLevel)
       )
     );  
   }

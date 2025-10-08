@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.pivot;
 
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -15,22 +16,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotID;
 
-public class AlgeaPivotSubsystem extends SubsystemBase {
+public class PivotSubsystem extends SubsystemBase {
 
   double positionZero = 0;
-  private SparkMax PivotMotor = new SparkMax(RobotID.Pivot.Algea.MOTOR_ID, MotorType.kBrushless);
-  public RelativeEncoder pivotEncoder = PivotMotor.getEncoder(); 
+  private SparkMax PivotMotor = new SparkMax(RobotID.Pivot.MOTOR_ID, MotorType.kBrushless);
+  private final RelativeEncoder pivotEncoder = PivotMotor.getEncoder(); 
 
   public final PIDController pivotController;
 
   private double PIDOutput = 0;
 
-  public enum AlgeaPivotPosition{
-    CLOSE, REEFA1, REEFA2, PROCESSOR, GROUND
+  public enum PivotPosition{
+    CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE
   }
 
-  public AlgeaPivotSubsystem() {
-    pivotController = new PIDController(Constants.PivotConstants.AlgeaPivot.PIVOT_KP, Constants.PivotConstants.AlgeaPivot.PIVOT_KI, Constants.PivotConstants.AlgeaPivot.PIVOT_KD);
+  public PivotSubsystem() {
+    pivotController = new PIDController(Constants.PivotConstants.PIVOT_KP, Constants.PivotConstants.PIVOT_KI, Constants.PivotConstants.PIVOT_KD);
     pivotController.setIntegratorRange(-0.5, 0.5); //TODO: This must be tuned
     pivotController.setTolerance(0.5, 6); //TODO: This must be tuned
     pivotEncoder.setPosition(0);
@@ -94,6 +95,6 @@ public class AlgeaPivotSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("ALGEA", getPivotPosition());
+    SmartDashboard.putNumber("PIVOT | CORAL", getPivotPosition());
   }
 }
