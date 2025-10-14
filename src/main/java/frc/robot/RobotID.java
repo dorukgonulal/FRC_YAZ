@@ -41,7 +41,7 @@ public class RobotID {
     }
 
     public static final class Pivot {
-        public static final int MOTOR_ID = 38;
+        public static final int MOTOR_ID = 32;
     }
 
     public static final class Climb {
@@ -49,7 +49,7 @@ public class RobotID {
     }
 
     public static final class Intake {
-        public static final int ROLLER_LEFT = 35;
-        public static final int ROLLER_RIGHT = 37;
+        public static final int ROLLER_LEFT = 40;
+        public static final int ROLLER_RIGHT = 35;
     }
 }

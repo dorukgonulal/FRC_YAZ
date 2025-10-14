@@ -73,6 +73,7 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     private final Joystick operator = new Joystick(1);
+    
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
@@ -198,9 +199,12 @@ public class RobotContainer {
         shoot.whileTrue(new IntakeShootCommand(intakeSubsystem));
 
         algeaPROCESSOR.onTrue(new AutoLifter(elevatorSubsystem, pivotSubsystem,
-                ElevatorPositions.PROCESSOR, PivotPosition.PROCESSOR));
+                ElevatorPositions.L4, PivotPosition.BARGE));
         algeaGROUND.onTrue(new AutoLifter(elevatorSubsystem, pivotSubsystem,
                 ElevatorPositions.A1, PivotPosition.CLOSE));
+
+        algeaREEFA1.onTrue(new AutoLifter(elevatorSubsystem, pivotSubsystem, ElevatorPositions.A1, PivotPosition.A1));
+        algeaREEFA2.onTrue(new AutoLifter(elevatorSubsystem, pivotSubsystem, ElevatorPositions.A2, PivotPosition.A2));
 
         coralBASE.onTrue(
                 new AutoLifter(elevatorSubsystem, pivotSubsystem,
