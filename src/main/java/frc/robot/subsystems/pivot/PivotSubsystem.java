@@ -26,13 +26,9 @@ public class PivotSubsystem extends SubsystemBase {
 
   private double PIDOutput = 0;
 
-  public enum PivotPosition{
-<<<<<<< Updated upstream
-    CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE
-=======
-    CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE, A1, A2
->>>>>>> Stashed changes
-  }
+    public enum PivotPosition {
+        CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE, A1, A2
+    }
 
   public PivotSubsystem() {
     pivotController = new PIDController(Constants.PivotConstants.PIVOT_KP, Constants.PivotConstants.PIVOT_KI, Constants.PivotConstants.PIVOT_KD);
