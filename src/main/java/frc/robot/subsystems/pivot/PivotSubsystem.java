@@ -18,83 +18,79 @@ import frc.robot.RobotID;
 
 public class PivotSubsystem extends SubsystemBase {
 
-  double positionZero = 0;
-  private SparkMax PivotMotor = new SparkMax(RobotID.Pivot.MOTOR_ID, MotorType.kBrushless);
-  private final RelativeEncoder pivotEncoder = PivotMotor.getEncoder(); 
+    double positionZero = 0;
+    private SparkMax PivotMotor = new SparkMax(RobotID.Pivot.MOTOR_ID, MotorType.kBrushless);
+    private final RelativeEncoder pivotEncoder = PivotMotor.getEncoder();
 
-  public final PIDController pivotController;
+    public final PIDController pivotController;
 
-  private double PIDOutput = 0;
+    private double PIDOutput = 0;
 
     public enum PivotPosition {
         CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE, A1, A2
     }
 
-  public PivotSubsystem() {
-    pivotController = new PIDController(Constants.PivotConstants.PIVOT_KP, Constants.PivotConstants.PIVOT_KI, Constants.PivotConstants.PIVOT_KD);
-    pivotController.setIntegratorRange(-0.5, 0.5); //TODO: This must be tuned
-    pivotController.setTolerance(0.5, 6); //TODO: This must be tuned
-    pivotEncoder.setPosition(0);
-    
-  }
+    public PivotSubsystem() {
+        pivotController = new PIDController(Constants.PivotConstants.PIVOT_KP, Constants.PivotConstants.PIVOT_KI,
+                Constants.PivotConstants.PIVOT_KD);
+        pivotController.setIntegratorRange(-0.5, 0.5); // TODO: This must be tuned
+        pivotController.setTolerance(0.5, 6); // TODO: This must be tuned
+        pivotEncoder.setPosition(0);
 
-  public void setPivot(double speed){
-    PivotMotor.set(speed);
-  }
+    }
 
+    public void setPivot(double speed) {
+        PivotMotor.set(speed);
+    }
 
-  public void setSetPoint(double setPoint){
-    pivotController.setSetpoint(setPoint);
+    public void setSetPoint(double setPoint) {
+        pivotController.setSetpoint(setPoint);
 
-  }
+    }
 
+    public void setDistance(double setPoint) {
+        PIDOutput = pivotController.calculate(getEncoderPosition() - setPoint);
+        setPivot(PIDOutput);
 
-  public void setDistance(double setPoint){
-    PIDOutput = pivotController.calculate(getEncoderPosition() - setPoint);
-    setPivot(PIDOutput);
+    }
 
-  }
+    public void pivotUp(double speed) {
+        PivotMotor.set(speed);
 
-  public void pivotUp(double speed){
-    PivotMotor.set(speed);
+    }
 
-  }
+    public void pivotDown(double speed) {
+        PivotMotor.set(-speed);
 
-  public void pivotDown(double speed){
-    PivotMotor.set(-speed);
-    
-  }
+    }
 
-  public void pivotStop(){
-    PivotMotor.stopMotor();
-    //PivotMotor.setIdleMode(IdleMode.kBrake);
+    public void pivotStop() {
+        PivotMotor.stopMotor();
+        // PivotMotor.setIdleMode(IdleMode.kBrake);
 
-  }
+    }
 
-  public double getEncoderPosition(){
-    return pivotEncoder.getPosition() - positionZero;
+    public double getEncoderPosition() {
+        return pivotEncoder.getPosition() - positionZero;
 
-  }
+    }
 
-  public double getPivotPosition(){
-    return pivotEncoder.getPosition();
+    public double getPivotPosition() {
+        return pivotEncoder.getPosition();
 
-  }
+    }
 
-  public void resetEncoder(){
-    pivotEncoder.setPosition(0);
+    public void resetEncoder() {
+        pivotEncoder.setPosition(0);
 
-  }
+    }
 
-  public void stallPivot(){
-    PivotMotor.set(0.06);
-  }
+    public void stallPivot() {
+        PivotMotor.set(0.06);
+    }
 
-  
-
-
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("PIVOT | CORAL", getPivotPosition());
-  }
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("PIVOT | CORAL", getPivotPosition());
+    }
 }
