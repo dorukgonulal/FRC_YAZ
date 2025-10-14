@@ -13,25 +13,6 @@
                 "data": {
                   "pathName": "blue1"
                 }
-              },
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "setReadyElevator"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }
@@ -47,7 +28,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "ElevatorL3"
+                        "name": "ElevatorL4"
                       }
                     },
                     {
@@ -76,7 +57,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "shoot"
+                              "name": "intake"
                             }
                           },
                           {
@@ -129,25 +110,6 @@
                 "data": {
                   "pathName": "blue2"
                 }
-              },
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "setReadyElevator"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.5
-                      }
-                    }
-                  ]
-                }
               }
             ]
           }
@@ -186,7 +148,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "intake"
+                              "name": "shoot"
                             }
                           },
                           {

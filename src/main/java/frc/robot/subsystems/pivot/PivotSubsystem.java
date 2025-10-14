@@ -27,7 +27,11 @@ public class PivotSubsystem extends SubsystemBase {
   private double PIDOutput = 0;
 
   public enum PivotPosition{
+<<<<<<< Updated upstream
     CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE
+=======
+    CLOSE, REEFL23, REEFL4, HP, NORMAL, REEFL1, PROCESSOR, BARGE, A1, A2
+>>>>>>> Stashed changes
   }
 
   public PivotSubsystem() {
