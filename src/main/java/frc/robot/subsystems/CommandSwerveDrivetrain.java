@@ -18,8 +18,10 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
@@ -288,6 +290,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+    }
+
+    public ChassisSpeeds getFieldVelocity(){
+        var cs = getState().Speeds;
+        var currPose = getState().Pose;
+        
+        //getfieldspeed fonksiyonu kalkmış kendim oluşturdum, apide bunu buldum -> Converts a user provided robot-relative set of speeds into a field-relative ChassisSpeeds object.
+        var Field = ChassisSpeeds.fromRobotRelativeSpeeds(cs.vxMetersPerSecond, cs.vyMetersPerSecond, cs.omegaRadiansPerSecond, currPose.getRotation());
+        return Field;
+    }
+
+    public Pose2d getPose(){
+        return getState().Pose;
+    }
+
+    public ChassisSpeeds getSpeed(){
+        return getState().Speeds;
+    }
+
+    public Pose2d predict(Time inTheFuture){
+        
+        Pose2d currPose = getState().Pose;
+        var Field = getFieldVelocity();
+        return new Pose2d(
+            currPose.getX() + Field.vxMetersPerSecond * inTheFuture.in(Seconds), 
+            currPose.getY() + Field.vyMetersPerSecond * inTheFuture.in(Seconds), 
+            currPose.getRotation().plus(Rotation2d.fromRadians(Field.omegaRadiansPerSecond * inTheFuture.in(Seconds)))
+        );
     }
 
     /**

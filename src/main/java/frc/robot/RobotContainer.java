@@ -13,6 +13,9 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -44,6 +47,7 @@ import frc.robot.subsystems.pivot.PivotSubsystem;
 import frc.robot.subsystems.pivot.PivotSubsystem.PivotPosition;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem.ElevatorPositions;
+import frc.robot.commands.auto.AlignToReef;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -69,6 +73,9 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
+
+    private static final AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
+
 
     private final CommandXboxController joystick = new CommandXboxController(0);
 
@@ -167,8 +174,10 @@ public class RobotContainer {
         // () -> point.withModuleDirection(
         // new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
 
-        joystick.pov(0).whileTrue(
-                drivetrain.applyRequest(() -> forwardStraight.withVelocityX(0.5).withVelocityY(0)));
+        // joystick.pov(0).whileTrue(
+        //         drivetrain.applyRequest(() -> forwardStraight.withVelocityX(0.5).withVelocityY(0)));
+        var wp = new Pose2d(1,0 ,Rotation2d.fromDegrees(90));
+        joystick.pov(0).onTrue(new AlignToReef(drivetrain).getPathFromWaypoint(wp));
         joystick.pov(180)
                 .whileTrue(drivetrain.applyRequest(
                         () -> forwardStraight.withVelocityX(-0.5).withVelocityY(0)));
@@ -236,5 +245,9 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
+    }
+
+    public static AprilTagFieldLayout getFieldLayout() {
+        return fieldLayout;
     }
 }

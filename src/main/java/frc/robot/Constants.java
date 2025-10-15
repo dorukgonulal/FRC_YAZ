@@ -4,6 +4,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -15,7 +17,14 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.LinearVelocity;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+
+import static edu.wpi.first.units.Units.Centimeter;
+import static edu.wpi.first.units.Units.InchesPerSecond;
+import static edu.wpi.first.units.Units.Seconds;
 
 import java.io.IOException;
 
@@ -70,6 +79,30 @@ public final class Constants {
     public static final class IntakeConstants {
       public static final double IntakePower = 0.35;
   }
+
+  public static final class AutoConstants {
+    public static final PIDConstants kRotationPID = new PIDConstants(22, 0, 0.05);//ok
+    public static final Time kAutoAlignPredict = Seconds.of(0.0);
+
+
+    //toleranslar
+    public static final Rotation2d kRotationTolerance = Rotation2d.fromDegrees(3.0);
+    public static final Distance kPositionTolerance = Centimeter.of(1.5);
+    public static final LinearVelocity kSpeedTolerance = InchesPerSecond.of(2);
+
+    public static final Time kEndTriggerDebounce = Seconds.of(0.04);
+
+    public static final Time kTeleopAlignAdjustTimeout = Seconds.of(2);
+    public static final Time kAutoAlignAdjustTimeout = Seconds.of(0.6);
+
+    public static final PathConstraints kTeleopPathConstraints = new PathConstraints(2.5, 2.0, 1/2 * Math.PI, 1 * Math.PI); // The constraints for this path.
+
+    public static final PathConstraints kAutoPathConstraints = new PathConstraints(2.25, 2.25, 1/2 * Math.PI, 1 * Math.PI); //? consider making these more aggressive
+    
+    public static final PPHolonomicDriveController kAutoAlignPIDController = new PPHolonomicDriveController(
+      new PIDConstants(9, 0, 0.25), //ok
+        AutoConstants.kRotationPID
+    );}
 
   public static final class PivotConstants {
     public static final double PIVOT_KP = 0.07;
