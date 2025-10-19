@@ -12,12 +12,15 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -29,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.RobotID.Pivot;
 import frc.robot.commands.AlignToReefTagRelative;
+import frc.robot.commands.GoToPath;
 import frc.robot.commands.climb.ClimbCommand;
 import frc.robot.commands.climb.UnclimbCommand;
 import frc.robot.commands.elevator.ElevatorDownCommand;
@@ -44,6 +48,8 @@ import frc.robot.subsystems.pivot.PivotSubsystem;
 import frc.robot.subsystems.pivot.PivotSubsystem.PivotPosition;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.elevator.ElevatorSubsystem.ElevatorPositions;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top
@@ -120,6 +126,7 @@ public class RobotContainer {
 
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
+        PathfindingCommand.warmupCommand().schedule();
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
         configureBindings();

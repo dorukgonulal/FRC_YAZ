@@ -5,6 +5,7 @@
 package frc.robot.subsystems.pivot;
 
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -19,8 +20,7 @@ import frc.robot.RobotID;
 public class PivotSubsystem extends SubsystemBase {
 
     double positionZero = 0;
-    private SparkMax PivotMotor = new SparkMax(RobotID.Pivot.MOTOR_ID, MotorType.kBrushless);
-    private final RelativeEncoder pivotEncoder = PivotMotor.getEncoder();
+    private TalonFX PivotMotor = new TalonFX(RobotID.Pivot.MOTOR_ID);
 
     public final PIDController pivotController;
 
@@ -35,7 +35,7 @@ public class PivotSubsystem extends SubsystemBase {
                 Constants.PivotConstants.PIVOT_KD);
         pivotController.setIntegratorRange(-0.5, 0.5); // TODO: This must be tuned
         pivotController.setTolerance(0.5, 6); // TODO: This must be tuned
-        pivotEncoder.setPosition(0);
+        PivotMotor.setPosition(0);
 
     }
 
@@ -71,17 +71,17 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public double getEncoderPosition() {
-        return pivotEncoder.getPosition() - positionZero;
+        return PivotMotor.getPosition().getValueAsDouble() - positionZero;
 
     }
 
     public double getPivotPosition() {
-        return pivotEncoder.getPosition();
+        return PivotMotor.getPosition().getValueAsDouble();
 
     }
 
     public void resetEncoder() {
-        pivotEncoder.setPosition(0);
+        PivotMotor.setPosition(0);
 
     }
 

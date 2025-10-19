@@ -41,7 +41,7 @@ public class RobotID {
     }
 
     public static final class Pivot {
-        public static final int MOTOR_ID = 38;
+        public static final int MOTOR_ID = 17;
     }
 
     public static final class Climb {

@@ -45,7 +45,7 @@ public class AlignToReefTagRelative extends Command {
         xController.setTolerance(Constants.AprilConstants.X_TOLERANCE_REEF_ALIGNMENT);
 
         yController.setSetpoint(isRightScore ? Constants.AprilConstants.Y_SETPOINT_REEF_ALIGNMENT
-                : -Constants.AprilConstants.Y_SETPOINT_REEF_ALIGNMENT - 0.04);
+                : -Constants.AprilConstants.Y_SETPOINT_REEF_ALIGNMENT - 0.075);
         yController.setTolerance(Constants.AprilConstants.Y_TOLERANCE_REEF_ALIGNMENT);
 
         tagID = LimelightHelpers.getFiducialID("limelight-reef");
@@ -98,16 +98,13 @@ public class AlignToReefTagRelative extends Command {
     public boolean isFinished() {
         // Requires the robot to stay in the correct position for 0.3 seconds, as long
         // as it gets a tag in the camera
-        // return
-        // this.dontSeeTagTimer.hasElapsed(Constants.AprilConstants.DONT_SEE_TAG_WAIT_TIME)
-        // ||
-        // stopTimer.hasElapsed(Constants.AprilConstants.POSE_VALIDATION_TIME);
+        return this.dontSeeTagTimer.hasElapsed(Constants.AprilConstants.DONT_SEE_TAG_WAIT_TIME) || stopTimer.hasElapsed(Constants.AprilConstants.POSE_VALIDATION_TIME);
 
-        if ((Math.abs(LimelightHelpers.getTX("limelight-reef")) < 5 && LimelightHelpers.getTY("limelight-reef") > 2)
-                || !LimelightHelpers.getTV("limelight-reef")) {
-            return true;
-        } else {
-            return false;
-        }
+        // if ((Math.abs(LimelightHelpers.getTX("limelight-reef")) < 5 && LimelightHelpers.getTY("limelight-reef") > 2)
+        //         || !LimelightHelpers.getTV("limelight-reef")) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 }

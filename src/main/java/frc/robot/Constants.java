@@ -26,13 +26,13 @@ public final class Constants {
     public static final double stickDeadband = 0.1;
 
     public final class AprilConstants {
-      public static final double X_REEF_ALIGNMENT_P = 1.5;
-      public static final double Y_REEF_ALIGNMENT_P = 2.4;
+      public static final double X_REEF_ALIGNMENT_P = 1.2;
+      public static final double Y_REEF_ALIGNMENT_P = 1.5;
       public static final double ROT_REEF_ALIGNMENT_P = 0.04;
       public static final double ROT_SETPOINT_REEF_ALIGNMENT = 0;
-      public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 0;
-      public static final double X_SETPOINT_REEF_ALIGNMENT = -0.5;
-      public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.15;
+      public static final double ROT_TOLERANCE_REEF_ALIGNMENT = 0.5;
+      public static final double X_SETPOINT_REEF_ALIGNMENT = -0.35;
+      public static final double Y_SETPOINT_REEF_ALIGNMENT = 0.245;
       public static final double X_TOLERANCE_REEF_ALIGNMENT = 0.05;
       public static final double Y_TOLERANCE_REEF_ALIGNMENT = 0.12;
       public static final double DONT_SEE_TAG_WAIT_TIME = 1;
@@ -54,8 +54,8 @@ public final class Constants {
 
       public static final double ELEVATOR_SETPOINT_READYFORAUTO = 24;
 
-      public static final double ELEVATOR_SETPOINT_L3 = 44;
-      public static final double ELEVATOR_SETPOINT_L4 = 69.5;
+      public static final double ELEVATOR_SETPOINT_L3 = 4; // 44
+      public static final double ELEVATOR_SETPOINT_L4 = 4; // 69.5
 
       public static final double ELEVATOR_SETPOINT_AUTOL3 = 67.3;
 
@@ -72,20 +72,20 @@ public final class Constants {
   }
 
   public static final class PivotConstants {
-    public static final double PIVOT_KP = 0.07;
+    public static final double PIVOT_KP = 0.75;
     public static final double PIVOT_KI = 0.0002;
     public static final double PIVOT_KD = 0.0002;
 
     public static final double CLOSE = 0.0;
-    public static final double NORMAL = -5;
-    public static final double HP = -10.7;
-    public static final double REEFL1 = -9;
-    public static final double REEF_L2_L3 = -25.6;
-    public static final double REEF_L4 = -27.2;
-    public static final double BARGE = -10;
-    public static final double PROCESSOR = -14;
-    public static final double A1 = -22.5;
-    public static final double A2 = -22.4;
+    public static final double NORMAL = -0.1;
+    public static final double HP = -0.2;
+    public static final double REEFL1 = -0.2;
+    public static final double REEF_L2_L3 = -0.6;
+    public static final double REEF_L4 = -0.8;
+    public static final double BARGE = -0.4;
+    public static final double PROCESSOR = -0.4;
+    public static final double A1 = -0.3;
+    public static final double A2 = -0.3;
 
     public static final double PIVOT_POWER = 0.65;
   }  
