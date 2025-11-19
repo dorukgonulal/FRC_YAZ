@@ -76,11 +76,13 @@ public final class Constants {
     public static final double PIVOT_KI = 0.0002;
     public static final double PIVOT_KD = 0.0002;
 
+
+    // AMAAAAN 0 İLE 1 ARASINDA DEĞER VER 1 İ GEÇMESİN 
     public static final double CLOSE = 0.0;
     public static final double NORMAL = -0.1;
-    public static final double HP = -0.2;
+    public static final double HP = -0.72;
     public static final double REEFL1 = -0.2;
-    public static final double REEF_L2_L3 = -0.6;
+    public static final double REEF_L2_L3 = -0.88;
     public static final double REEF_L4 = -0.8;
     public static final double BARGE = -0.4;
     public static final double PROCESSOR = -0.4;

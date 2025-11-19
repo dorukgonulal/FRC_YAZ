@@ -32,7 +32,6 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.RobotID.Pivot;
 import frc.robot.commands.AlignToReefTagRelative;
-import frc.robot.commands.GoToPath;
 import frc.robot.commands.climb.ClimbCommand;
 import frc.robot.commands.climb.UnclimbCommand;
 import frc.robot.commands.elevator.ElevatorDownCommand;
@@ -159,8 +158,8 @@ public class RobotContainer {
                 drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().onTrue(new AlignToReefTagRelative(true, drivetrain));
-        joystick.x().onTrue(new AlignToReefTagRelative(false, drivetrain));
+        //joystick.b().onTrue(new OtoAligment(drivetrain, true));
+        //joystick.x().onTrue(new OtoAligment(drivetrain, false));
 
         // joystick.b().onTrue(new SequentialCommandGroup(
         //         new AlignToReefTagRelative(true, drivetrain),
