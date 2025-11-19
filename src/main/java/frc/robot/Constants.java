@@ -68,7 +68,7 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-      public static final double IntakePower = 0.35;
+      public static final double IntakePower = 0.24;
   }
 
   public static final class PivotConstants {
