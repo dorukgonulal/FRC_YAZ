@@ -57,7 +57,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "intake"
+                              "name": "shoot"
                             }
                           },
                           {
@@ -148,7 +148,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "shoot"
+                              "name": "intake"
                             }
                           },
                           {

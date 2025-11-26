@@ -158,8 +158,8 @@ public class RobotContainer {
                 drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        //joystick.b().onTrue(new OtoAligment(drivetrain, true));
-        //joystick.x().onTrue(new OtoAligment(drivetrain, false));
+        joystick.b().onTrue(new AlignToReefTagRelative(true, drivetrain));
+        joystick.x().onTrue(new AlignToReefTagRelative(false, drivetrain));
 
         // joystick.b().onTrue(new SequentialCommandGroup(
         //         new AlignToReefTagRelative(true, drivetrain),

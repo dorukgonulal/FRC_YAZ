@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -57,12 +58,15 @@ public class AlignToReefTagRelative extends Command {
             this.dontSeeTagTimer.reset();
 
             double[] postions = LimelightHelpers.getBotPose_TargetSpace("limelight-reef");
-            // SmartDashboard.putNumber("x", postions[2]);
+            
 
             double xSpeed = xController.calculate(postions[2]);
             // SmartDashboard.putNumber("xspee", xSpeed);
             double ySpeed = -yController.calculate(postions[0]);
             double rotValue = -rotController.calculate(postions[4]);
+            SmartDashboard.putNumber("rot", postions[4]);
+            SmartDashboard.putNumber("x", postions[2]);
+            SmartDashboard.putNumber("y", postions[0]);
 
             drivebase.setControl(m_drive
                     .withVelocityX(xSpeed)
@@ -73,6 +77,7 @@ public class AlignToReefTagRelative extends Command {
                     !yController.atSetpoint() ||
                     !xController.atSetpoint()) {
                 stopTimer.reset();
+                rotValue = MathUtil.clamp(rotValue, -0.04, 0.04);
                 ySpeed = Math.max(ySpeed, 0.15);
                 xSpeed = Math.max(xSpeed, 0.23);
             }
