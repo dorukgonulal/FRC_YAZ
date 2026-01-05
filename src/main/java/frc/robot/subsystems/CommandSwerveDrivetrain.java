@@ -17,10 +17,14 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -30,7 +34,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
+import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 
 /**
@@ -48,6 +52,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
+
+    private final Field2d m_field = new Field2d();
 
     /** Swerve request to apply during robot-centric path following */
     private final SwerveRequest.ApplyRobotSpeeds m_pathApplyRobotSpeeds = new SwerveRequest.ApplyRobotSpeeds();
@@ -208,6 +214,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     private void configureAutoBuilder() {
+        SmartDashboard.putData("Field", m_field);
         try {
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
@@ -279,9 +286,39 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.dynamic(direction);
     }
 
+    public ChassisSpeeds getFieldVelocity() {
+        var cs = getState().Speeds;
+        var currPose = getState().Pose;
+
+        // apide bunu buldum -> Converts a user provided robot-relative set of speeds
+        // into a field-relative ChassisSpeeds object.
+        var Field = ChassisSpeeds.fromRobotRelativeSpeeds(cs.vxMetersPerSecond, cs.vyMetersPerSecond,
+                cs.omegaRadiansPerSecond, currPose.getRotation());
+        return Field;
+    }
+
+    public Pose2d getPose() {
+        return getState().Pose;
+    }
+
+    public ChassisSpeeds getSpeed() {
+        return getState().Speeds;
+    }
+
+    public Pose2d predict(Time inTheFuture) {
+
+        Pose2d currPose = getState().Pose;
+        var Field = getFieldVelocity();
+        return new Pose2d(
+                currPose.getX() + Field.vxMetersPerSecond * inTheFuture.in(Seconds),
+                currPose.getY() + Field.vyMetersPerSecond * inTheFuture.in(Seconds),
+                currPose.getRotation()
+                        .plus(Rotation2d.fromRadians(Field.omegaRadiansPerSecond * inTheFuture.in(Seconds))));
+    }
+
     @Override
     public void periodic() {
-        String[] moduleNames = {"Front Left", "Front Right", "Back Left", "Back Right"};
+        String[] moduleNames = { "Front Left", "Front Right", "Back Left", "Back Right" };
 
         for (int i = 0; i < getModules().length; i++) {
             var module = getModules()[i];
@@ -307,6 +344,56 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                                 : kBlueAlliancePerspectiveRotation);
                 m_hasAppliedOperatorPerspective = true;
             });
+        }
+
+        SmartDashboard.putNumber("Pose X", getState().Pose.getX());
+        SmartDashboard.putNumber("Pose Y", getState().Pose.getY());
+        SmartDashboard.putNumber("Pose Rotation", getState().Pose.getRotation().getDegrees());
+        m_field.setRobotPose(getState().Pose);
+        updateVisionPoseM2("limelight-left");
+        updateVisionPoseM2("limelight-right");
+
+    }
+
+    private void updateVisionPoseM2(String limelightname) {
+        LimelightHelpers.SetRobotOrientation(limelightname, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+
+        if (DriverStation.isDisabled()) {
+            LimelightHelpers.SetIMUMode(limelightname, 1);
+        } else {
+            LimelightHelpers.SetIMUMode(limelightname, 2);
+        }
+
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightname);
+        boolean doRejectUpdate = false;
+        double omegaRps = Units.radiansToRotations(getState().Speeds.omegaRadiansPerSecond);
+
+        if (mt2.tagCount == 1 && mt2.rawFiducials.length == 1) {
+            if (mt2.rawFiducials[0].ambiguity > .7) {
+                doRejectUpdate = true;
+                SmartDashboard.putNumber("Ambiguity Value", mt2.rawFiducials[0].ambiguity);
+            }
+            if (mt2.rawFiducials[0].distToCamera > 2) {
+                doRejectUpdate = true;
+                SmartDashboard.putNumber("Distance Value", mt2.rawFiducials[0].distToCamera);
+            }
+        }
+
+        // if our angular velocity is greater than 360 degrees per second, ignore vision
+        // updates
+        if (Math.abs(omegaRps) > 360) {
+            System.out.println("OmegaRps: " + omegaRps);
+            doRejectUpdate = true;
+        }
+        if (mt2.tagCount == 0) {
+            doRejectUpdate = true;
+        }
+        if (!doRejectUpdate) {
+
+            setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+            addVisionMeasurement(
+                    mt2.pose,
+                    mt2.timestampSeconds);
         }
     }
 
