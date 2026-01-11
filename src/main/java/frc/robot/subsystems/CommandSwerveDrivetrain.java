@@ -358,20 +358,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private void updateVisionPoseM2(String limelightname) {
         LimelightHelpers.SetRobotOrientation(limelightname, getState().Pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
 
-        if (DriverStation.isDisabled()) {
-            LimelightHelpers.SetIMUMode(limelightname, 1);
-        } else {
-            LimelightHelpers.SetIMUMode(limelightname, 2);
-        }
+        // if (DriverStation.isDisabled()) {
+        // LimelightHelpers.SetIMUMode(limelightname, 1);
+        // } else {
+        // LimelightHelpers.SetIMUMode(limelightname, 2);
+        // }
+        LimelightHelpers.SetIMUMode(limelightname, 0);
 
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightname);
         boolean doRejectUpdate = false;
-        double omegaRps = Units.radiansToRotations(getState().Speeds.omegaRadiansPerSecond);
+        // double omegaRps =
+        // Units.radiansToRotations(getState().Speeds.omegaRadiansPerSecond);
+        double gyroRateDegPerSec = getPigeon2().getAngularVelocityZWorld().getValue().in(DegreesPerSecond);
 
         if (mt2.tagCount == 1 && mt2.rawFiducials.length == 1) {
             if (mt2.rawFiducials[0].ambiguity > .7) {
-                doRejectUpdate = true;
-                SmartDashboard.putNumber("Ambiguity Value", mt2.rawFiducials[0].ambiguity);
+            doRejectUpdate = true;
+            SmartDashboard.putNumber("Ambiguity Value", mt2.rawFiducials[0].ambiguity);
             }
             if (mt2.rawFiducials[0].distToCamera > 2) {
                 doRejectUpdate = true;
@@ -379,10 +382,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             }
         }
 
-        // if our angular velocity is greater than 360 degrees per second, ignore vision
-        // updates
-        if (Math.abs(omegaRps) > 360) {
-            System.out.println("OmegaRps: " + omegaRps);
+        if (Math.abs(gyroRateDegPerSec) > 360) {
+            // System.out.println("GyroRateDegPerSec: " + gyroRateDegPerSec);
             doRejectUpdate = true;
         }
         if (mt2.tagCount == 0) {

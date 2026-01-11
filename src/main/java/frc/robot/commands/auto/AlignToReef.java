@@ -84,8 +84,9 @@ public class AlignToReef {
     }
 
     public static void warmup() {
-        System.out.println("auto align is warmed up: \nBlue: " + blueReefTagPoses.hashCode() + "\nRed: "
-                + redReefTagPoses.hashCode() + "\nBoth: " + allReefTagPoses.hashCode());
+        // System.out.println("auto align is warmed up: \nBlue: " +
+        // blueReefTagPoses.hashCode() + "\nRed: "
+        // + redReefTagPoses.hashCode() + "\nBoth: " + allReefTagPoses.hashCode());
     }
 
     public static boolean isPIDLoopRunning = false;
@@ -115,7 +116,8 @@ public class AlignToReef {
                 case MIDDLE:
                     return FieldBranchSide.MIDDLE;
             }
-            System.out.println("Error, switch case failed to catch the field branch side");
+            // System.out.println("Error, switch case failed to catch the field branch
+            // side");
             return this;
         }
 
@@ -153,6 +155,10 @@ public class AlignToReef {
         return Commands.defer(() -> {
             List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(
                     new Pose2d(mSwerve.getState().Pose.getTranslation(), waypoint.getRotation()),
+                    // new Pose2d(
+                    // mSwerve.getState().Pose.getTranslation(),
+                    // getPathVelocityHeading(mSwerve.getState().Pose, mSwerve.getFieldVelocity(),
+                    // waypoint)),
                     waypoint);
 
             if (waypoints.get(0).anchor().getDistance(waypoints.get(1).anchor()) < 0.01) {
@@ -200,21 +206,24 @@ public class AlignToReef {
      * @param cs field relative chassis speeds
      * @return
      */
+
     public static Rotation2d getPathVelocityHeading(Pose2d currentPose, ChassisSpeeds cs, Pose2d target) {
         if (getVelocityMagnitude(cs).in(MetersPerSecond) < 0.25) {
-            System.out.println("approach: straight line");
+            // System.out.println("approach: straight line");
             var diff = target.getTranslation().minus(currentPose.getTranslation());
-            System.out.println("diff calc: \nx: " + diff.getX() + "\ny: " + diff.getY() + "\nDoT: "
-                    + diff.getAngle().getDegrees());
+            // System.out.println("diff calc: \nx: " + diff.getX() + "\ny: " + diff.getY() +
+            // "\nDoT: "
+            // + diff.getAngle().getDegrees());
             return (diff.getNorm() < 0.01) ? target.getRotation() : diff.getAngle();// .rotateBy(Rotation2d.k180deg);
         }
 
-        System.out.println("approach: compensating for velocity");
+        // System.out.println("approach: compensating for velocity");
 
         var rotation = new Rotation2d(cs.vxMetersPerSecond, cs.vyMetersPerSecond);
 
-        System.out.println(
-                "velocity calc: \nx: " + cs.vxMetersPerSecond + "\ny: " + cs.vyMetersPerSecond + "\nDoT: " + rotation);
+        // System.out.println(
+        // "velocity calc: \nx: " + cs.vxMetersPerSecond + "\ny: " +
+        // cs.vyMetersPerSecond + "\nDoT: " + rotation);
 
         return rotation;
     }
@@ -249,6 +258,7 @@ public class AlignToReef {
 
         BranchSide tagSide = fieldSide.branchSide;
 
+        // EĞER İSTMEİYORSAN KOMPLE İF'İ YORUM SATIRINA AL
         if (swervePose.getX() > 4.500
                 &&
                 swervePose.getX() < 13) {

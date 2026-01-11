@@ -75,12 +75,16 @@ public class AprilTagHelper {
      */
     public enum BranchSide { // ? you could consider bringing the tag offsets back and modifying dynamics
   
-        LEFT(new Translation2d(-0.153209 + 0.0381, 0.5406845 + 0.02 + 0.0254)),
+        LEFT(new Translation2d(-0.190109, 0.5860845)),
+        // LEFT(new Translation2d(-0.153209 + 0.0381, 0.5406845 + 0.02 + 0.0254)),
 
+        
+        RIGHT(new Translation2d(0.177262, 0.5862565)),
+        // RIGHT(new Translation2d(0.218062 - 0.0508 + 0.01, 0.5408565 + 0.02 + 0.0254)),
 
-        RIGHT(new Translation2d(0.218062 - 0.0508 + 0.01, 0.5408565 + 0.02 + 0.0254)),
-
-        MIDDLE(new Translation2d(0.064853 - 0.03175, 0.5408565 + 0.02 + 0.0254));
+        //033103        
+        MIDDLE(new Translation2d(0, 0.5862565));
+        // MIDDLE(new Translation2d(0.064853 - 0.03175, 0.5408565 + 0.02 + 0.0254));
 
         public Translation2d tagOffset;
 
